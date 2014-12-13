@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+@import ObjectiveC.runtime;
 
 @interface AppDelegate ()
 
@@ -14,32 +15,62 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [self enhanceNumberForDebugging];
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+#pragma mark - Make NSNumber Act Like an NSString
+
+- (void)enhanceNumberForDebugging {
+    Class numberClass = [NSNumber class];
+    Class stringClass = [NSString class];
+    
+    SEL lengthSelector = @selector(length);
+    Method lengthMethodFromNSString = class_getInstanceMethod(stringClass, lengthSelector);
+    const char *lengthTypes = method_getTypeEncoding(lengthMethodFromNSString);
+    class_addMethod(numberClass, lengthSelector, (IMP)swf_fakeLength, lengthTypes);
+    
+    SEL boundingRectWithSizeOptionsAttributesContextSelector = @selector(boundingRectWithSize:options:attributes:context:);
+    Method boundingRectWithSizeOptionsAttributesContextMethodFromNSString = class_getInstanceMethod(stringClass, boundingRectWithSizeOptionsAttributesContextSelector);
+    const char *boundingRectWithSizeOptionsAttributesContextTypes = method_getTypeEncoding(boundingRectWithSizeOptionsAttributesContextMethodFromNSString);
+    class_addMethod(numberClass, boundingRectWithSizeOptionsAttributesContextSelector, (IMP)swf_fakeBoundingRectWithSizeOptionsAttributesContext, boundingRectWithSizeOptionsAttributesContextTypes);
+    
+    SEL rangeOfCharacterFromSetSelector = @selector(rangeOfCharacterFromSet:);
+    Method rangeOfCharacterFromSetMethodFromNSString = class_getInstanceMethod(stringClass, rangeOfCharacterFromSetSelector);
+    const char *rangeOfCharacterFromSetTypes = method_getTypeEncoding(rangeOfCharacterFromSetMethodFromNSString);
+    class_addMethod(numberClass, rangeOfCharacterFromSetSelector, (IMP)swf_fakeRangeOfCharacterFromSet, rangeOfCharacterFromSetTypes);
+    
+    SEL drawWithRectOptionsAttributesContextSelector = @selector(drawWithRect:options:attributes:context:);
+    Method drawWithRectOptionsAttributesContextMethodFromNSString = class_getInstanceMethod(stringClass, drawWithRectOptionsAttributesContextSelector);
+    const char *drawWithRectOptionsAttributesContextTypes = method_getTypeEncoding(drawWithRectOptionsAttributesContextMethodFromNSString);
+    class_addMethod(numberClass, drawWithRectOptionsAttributesContextSelector, (IMP)swf_fakeDrawWithRectOptionsAttributesContext, drawWithRectOptionsAttributesContextTypes);
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+NSUInteger swf_fakeLength(id self, SEL _cmd) {
+    NSLog(@"Faking length on a number with value %@", self);
+    NSString *description = [AppDelegate swf_fakeNumberDescription:self];
+    return description.length;
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+CGRect swf_fakeBoundingRectWithSizeOptionsAttributesContext(id self, SEL _cmd, CGSize size, NSStringDrawingOptions options, NSDictionary *attributes, NSStringDrawingContext *context) {
+    NSString *description = [AppDelegate swf_fakeNumberDescription:self];
+    return [description boundingRectWithSize:size options:options attributes:attributes context:context];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+NSRange swf_fakeRangeOfCharacterFromSet(id self, SEL _cmd, NSCharacterSet *set) {
+    NSString *description = [AppDelegate swf_fakeNumberDescription:self];
+    return [description rangeOfCharacterFromSet:set];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+void swf_fakeDrawWithRectOptionsAttributesContext(id self, SEL _cmd, CGRect rect, NSStringDrawingOptions options, NSDictionary *attributes, NSStringDrawingContext *context) {
+    NSString *description = [AppDelegate swf_fakeNumberDescription:self];
+    [description drawWithRect:rect options:options attributes:attributes context:context];
+}
+
+// make the number standout with drawn
++ (NSString *)swf_fakeNumberDescription:(NSNumber *)number {
+    return [NSString stringWithFormat:@"##%@##", number];
 }
 
 @end

@@ -10,18 +10,18 @@
 
 @interface ViewController ()
 
+@property (strong, nonatomic) IBOutlet UILabel *label;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    // make a number and use it like a string
+    id notAString = @123;
+    self.label.text = notAString;
 }
 
 @end

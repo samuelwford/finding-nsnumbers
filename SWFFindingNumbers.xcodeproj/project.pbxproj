@@ -14,6 +14,7 @@
 		247A45211A3C7A8800FA0D03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 247A45201A3C7A8800FA0D03 /* Images.xcassets */; };
 		247A45241A3C7A8800FA0D03 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 247A45221A3C7A8800FA0D03 /* LaunchScreen.xib */; };
 		247A45301A3C7A8800FA0D03 /* SWFFindingNumbersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 247A452F1A3C7A8800FA0D03 /* SWFFindingNumbersTests.m */; };
+		247A453A1A3C8B8300FA0D03 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 247A45391A3C8B8300FA0D03 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		247A45291A3C7A8800FA0D03 /* SWFFindingNumbersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SWFFindingNumbersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		247A452E1A3C7A8800FA0D03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		247A452F1A3C7A8800FA0D03 /* SWFFindingNumbersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWFFindingNumbersTests.m; sourceTree = "<group>"; };
+		247A45391A3C8B8300FA0D03 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		247A45121A3C7A8800FA0D03 /* SWFFindingNumbers */ = {
 			isa = PBXGroup;
 			children = (
+				247A45391A3C8B8300FA0D03 /* README.md */,
 				247A45171A3C7A8800FA0D03 /* AppDelegate.h */,
 				247A45181A3C7A8800FA0D03 /* AppDelegate.m */,
 				247A451A1A3C7A8800FA0D03 /* ViewController.h */,
@@ -221,6 +224,7 @@
 			files = (
 				247A451C1A3C7A8800FA0D03 /* ViewController.m in Sources */,
 				247A45191A3C7A8800FA0D03 /* AppDelegate.m in Sources */,
+				247A453A1A3C8B8300FA0D03 /* README.md in Sources */,
 				247A45161A3C7A8800FA0D03 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
